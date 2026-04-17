@@ -430,72 +430,6 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
-export interface ApiApplicationApplication extends Struct.CollectionTypeSchema {
-  collectionName: 'applications';
-  info: {
-    displayName: 'Application';
-    pluralName: 'applications';
-    singularName: 'application';
-  };
-  options: {
-    draftAndPublish: false;
-  };
-  attributes: {
-    additional_letter_recommendation: Schema.Attribute.Media<
-      'images' | 'files' | 'videos' | 'audios'
-    >;
-    address: Schema.Attribute.String;
-    awards: Schema.Attribute.Media<
-      'images' | 'files' | 'videos' | 'audios',
-      true
-    >;
-    birthday: Schema.Attribute.String;
-    certificate: Schema.Attribute.Media<
-      'images' | 'files' | 'videos' | 'audios',
-      true
-    >;
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    employment_record: Schema.Attribute.Media<
-      'images' | 'files' | 'videos' | 'audios'
-    >;
-    esutd: Schema.Attribute.Media<
-      'images' | 'files' | 'videos' | 'audios',
-      true
-    >;
-    fio: Schema.Attribute.String;
-    iin: Schema.Attribute.String &
-      Schema.Attribute.Required &
-      Schema.Attribute.Unique;
-    letter_recommendation: Schema.Attribute.Media<
-      'images' | 'files' | 'videos' | 'audios'
-    >;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::application.application'
-    > &
-      Schema.Attribute.Private;
-    nomination: Schema.Attribute.Relation<
-      'manyToOne',
-      'api::nomination.nomination'
-    >;
-    presentation: Schema.Attribute.Media<
-      'images' | 'files' | 'videos' | 'audios'
-    >;
-    publishedAt: Schema.Attribute.DateTime;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    user: Schema.Attribute.Relation<
-      'oneToOne',
-      'plugin::users-permissions.user'
-    >;
-    video: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
-  };
-}
-
 export interface ApiNominationNomination extends Struct.CollectionTypeSchema {
   collectionName: 'nominations';
   info: {
@@ -507,10 +441,6 @@ export interface ApiNominationNomination extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
-    applications: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::application.application'
-    >;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -520,11 +450,18 @@ export interface ApiNominationNomination extends Struct.CollectionTypeSchema {
       'api::nomination.nomination'
     > &
       Schema.Attribute.Private;
-    name: Schema.Attribute.String;
+    name_kk: Schema.Attribute.String;
+    name_ru: Schema.Attribute.String;
+    note_kk: Schema.Attribute.Text;
+    note_ru: Schema.Attribute.Text;
     publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    users: Schema.Attribute.Relation<
+      'oneToMany',
+      'plugin::users-permissions.user'
+    >;
   };
 }
 
@@ -984,10 +921,23 @@ export interface PluginUsersPermissionsUser
   };
   options: {
     draftAndPublish: false;
-    timestamps: true;
   };
   attributes: {
+    additional_letter_recommendation: Schema.Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios'
+    >;
+    address: Schema.Attribute.String;
+    awards: Schema.Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios',
+      true
+    >;
+    birthday: Schema.Attribute.String;
     blocked: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    certificate: Schema.Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios',
+      true
+    >;
+    code: Schema.Attribute.String & Schema.Attribute.Unique;
     confirmationToken: Schema.Attribute.String & Schema.Attribute.Private;
     confirmed: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     createdAt: Schema.Attribute.DateTime;
@@ -998,17 +948,36 @@ export interface PluginUsersPermissionsUser
       Schema.Attribute.SetMinMaxLength<{
         minLength: 6;
       }>;
+    employment_record: Schema.Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios'
+    >;
+    esutd: Schema.Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios',
+      true
+    >;
+    fio: Schema.Attribute.String;
+    iin: Schema.Attribute.String & Schema.Attribute.Required;
+    letter_recommendation: Schema.Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios'
+    >;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'plugin::users-permissions.user'
     > &
       Schema.Attribute.Private;
+    nomination: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::nomination.nomination'
+    >;
     password: Schema.Attribute.Password &
       Schema.Attribute.Private &
       Schema.Attribute.SetMinMaxLength<{
         minLength: 6;
       }>;
+    presentation: Schema.Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios'
+    >;
     provider: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
     resetPasswordToken: Schema.Attribute.String & Schema.Attribute.Private;
@@ -1025,6 +994,7 @@ export interface PluginUsersPermissionsUser
       Schema.Attribute.SetMinMaxLength<{
         minLength: 3;
       }>;
+    video: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
   };
 }
 
@@ -1039,7 +1009,6 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
-      'api::application.application': ApiApplicationApplication;
       'api::nomination.nomination': ApiNominationNomination;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;

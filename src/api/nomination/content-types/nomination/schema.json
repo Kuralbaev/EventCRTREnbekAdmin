@@ -11,13 +11,22 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "name": {
+    "name_kk": {
       "type": "string"
     },
-    "applications": {
+    "name_ru": {
+      "type": "string"
+    },
+    "note_ru": {
+      "type": "text"
+    },
+    "note_kk": {
+      "type": "text"
+    },
+    "users": {
       "type": "relation",
       "relation": "oneToMany",
-      "target": "api::application.application",
+      "target": "plugin::users-permissions.user",
       "mappedBy": "nomination"
     }
   }
