@@ -1,0 +1,23 @@
+services:
+  strapi:
+    container_name: enbekjoly-admin
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "1337:1337"
+    env_file:
+      - .env
+    environment:
+      HOST: 0.0.0.0
+      PORT: 1337
+      DATABASE_CLIENT: sqlite
+      DATABASE_FILENAME: /opt/app/.tmp/data.db
+    volumes:
+      - strapi_data:/opt/app/.tmp
+      - strapi_uploads:/opt/app/public/uploads
+    restart: unless-stopped
+
+volumes:
+  strapi_data:
+  strapi_uploads:
